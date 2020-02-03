@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Windows Developer Web Components Demo</title>
+
+    <style>
+      my-counter.special {
+        --height: 150px;
+      }
+
+      my-counter.special h1 {
+        color: red;
+      }
+    </style>
+
+    <script src="counter.js" type="module"></script>
+  </head>
+  <body>
+    <my-counter value="3"></my-counter>
+
+    <my-counter value="3" class="special">
+      <h1 slot="header">Value pre- &amp; postfix</h1>
+      <span slot="value-prefix">&gt;</span>
+      <span slot="value-postfix"> €</span>
+    </my-counter>
+
+    <script>
+      var counter = document.querySelector('my-counter');
+
+      counter.addEventListener('valueChange', ({ detail }) => console.log(detail));
+    </script>
+  </body>
+</html>
