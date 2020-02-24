@@ -5,28 +5,48 @@
     <title>Windows Developer Web Components Demo</title>
 
     <style>
-      my-counter.special {
+      my-counter.styled::part(value) {
+        background-color: green;
+      }
+
+      my-counter.resized {
         --height: 150px;
       }
 
-      my-counter.special h1 {
-        color: red;
+      my-counter span {
+        white-space: pre;
       }
     </style>
 
     <script src="counter.js" type="module"></script>
   </head>
   <body>
-    <my-counter value="3"></my-counter>
+    <my-counter value="3" min-value="1" max-value="10"></my-counter>
+    <my-counter value="3" min-value="1" max-value="10" class="styled">
+      <h1 slot="header">Styled Counter</h1>
+    </my-counter>
+    <my-counter value="3" min-value="1" max-value="10" class="resized">
+      <h1 slot="header">Resized counter</h1>
+    </my-counter>
 
-    <my-counter value="3" class="special">
+    <my-counter value="3" min-value="1" max-value="10">
+      <h1 slot="header">Value prefix</h1>
+      <span slot="value-prefix">$ </span>
+    </my-counter>
+
+    <my-counter value="3" min-value="1" max-value="10">
+      <h1 slot="header">Value postfix</h1>
+      <span slot="value-postfix"> €</span>
+    </my-counter>
+
+    <my-counter value="3" min-value="1" max-value="10">
       <h1 slot="header">Value pre- &amp; postfix</h1>
-      <span slot="value-prefix">&gt;</span>
+      <span slot="value-prefix">&gt; </span>
       <span slot="value-postfix"> €</span>
     </my-counter>
 
     <script>
-      var counter = document.querySelector('my-counter');
+      const counter = document.querySelector('my-counter');
 
       counter.addEventListener('valueChange', ({ detail }) => console.log(detail));
     </script>

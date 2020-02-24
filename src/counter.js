@@ -1,33 +1,82 @@
 const template = document.createElement('template');
 
+// language=HTML
 template.innerHTML = `
   <style>
     .counter-container {
-      --default-height: var(--height, 50px);
+      --default-height: var(--height, 100px);
       
-      width: calc(var(--default-height) * 3);
+      width: calc(var(--default-height) * 2);
       height: var(--default-height);
-      display: flex;
+      position: relative;
     }
 
     .counter-container > div {
-      color: black;
-      font-size: 2.2em;
-
+      color: white;
+      font-size: 2.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 5px solid white;
+      margin: 0;
+      padding: 0;
     }
-    
-    .button {
-      padding: 1rem;
-      border: 1px solid black;
-      user-select: none;
+
+    .counter-container .value {
+      background-color: black;
+      position: absolute;
+      z-index: 2;
+      width: var(--default-height);
+      height: 100%;
+      border-radius: 50%;
+      border: 5px solid white;
+      left: 50%;
+      margin-left: calc(var(--default-height) / -2);
+    }
+
+    .counter-container .buttons {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .counter-container .button {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      transition-duration: 200ms;
       cursor: pointer;
+      user-select: none;
     }
-    
-    .value {
-      margin: 0 1rem;
+
+    .counter-container .button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .counter-container .button:active {
+      background-color: #ff584f;
+      color: white;
+    }
+
+    .counter-container .decrement {
+      background-color: black;
+      justify-content: flex-start;
+
+      border-bottom-left-radius: calc(var(--default-height) / 2);
+      border-top-left-radius: calc(var(--default-height) / 2);
+      padding-left: calc(var(--default-height) / 6);
+    }
+
+    .counter-container .increment {
+      background-color: black;
+      justify-content: flex-end;
+
+      border-bottom-right-radius: calc(var(--default-height) / 2);
+      border-top-right-radius: calc(var(--default-height) / 2);
+      padding-right: calc(var(--default-height) / 6);
     }
   </style>
 
@@ -36,15 +85,16 @@ template.innerHTML = `
   </slot>
 
   <div class="counter-container">
-    <div class="button decrement">-</div>
+    <div class="buttons">
+      <div class="button decrement">-</div>
+      <div class="button increment">+</div>
+    </div>
 
     <div class="value" part="value">
       <slot name="value-prefix"></slot>
       <span class="value-display">0</span>
       <slot name="value-postfix"></slot>
     </div>
-
-    <div class="button increment">+</div>
   </div>`;
 
 class MyCounter extends HTMLElement {
